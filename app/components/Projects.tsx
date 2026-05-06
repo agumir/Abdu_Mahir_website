@@ -1,8 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
+import { useState, useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import { ExternalLink, Github } from 'lucide-react'
 
 const projects = [
@@ -66,7 +65,8 @@ const categories = ['all', 'ai', 'web', 'enterprise', 'web3']
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState('all')
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   const filteredProjects = projects.filter(
     (project) => activeCategory === 'all' || project.category === activeCategory
@@ -78,7 +78,7 @@ export default function Projects() {
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
@@ -91,10 +91,9 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        {/* Category Filter */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.2, duration: 0.6 }}
           className="flex flex-wrap justify-center gap-4 mb-12"
         >
@@ -113,66 +112,62 @@ export default function Projects() {
           ))}
         </motion.div>
 
-        {/* Projects Grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCategory}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.title}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                whileHover={{ y: -10 }}
-                className="glass-effect rounded-xl overflow-hidden group cursor-pointer"
-              >
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <motion.div
+          key={activeCategory}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          {filteredProjects.map((project, index) => (
+            <motion.div
+              key={project.title}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              whileHover={{ y: -10 }}
+              className="glass-effect rounded-xl overflow-hidden group cursor-pointer"
+            >
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+                <p className="text-gray-400 mb-4">{project.description}</p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.tech.map((tech) => (
+                    <span key={tech} className="text-xs px-2 py-1 glass-effect rounded">
+                      {tech}
+                    </span>
+                  ))}
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                  <p className="text-gray-400 mb-4">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tech.map((tech) => (
-                      <span key={tech} className="text-xs px-2 py-1 glass-effect rounded">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex gap-4">
-                    <motion.a
-                      whileHover={{ scale: 1.05 }}
-                      href={project.github}
-                      target="_blank"
-                      className="flex items-center gap-2 text-sm text-gray-300 hover:text-primary transition-colors"
-                    >
-                      <Github size={16} /> Code
-                    </motion.a>
-                    <motion.a
-                      whileHover={{ scale: 1.05 }}
-                      href={project.live}
-                      target="_blank"
-                      className="flex items-center gap-2 text-sm text-gray-300 hover:text-primary transition-colors"
-                    >
-                      <ExternalLink size={16} /> Live Demo
-                    </motion.a>
-                  </div>
+                <div className="flex gap-4">
+                  <motion.a
+                    whileHover={{ scale: 1.05 }}
+                    href={project.github}
+                    target="_blank"
+                    className="flex items-center gap-2 text-sm text-gray-300 hover:text-primary transition-colors"
+                  >
+                    <Github size={16} /> Code
+                  </motion.a>
+                  <motion.a
+                    whileHover={{ scale: 1.05 }}
+                    href={project.live}
+                    target="_blank"
+                    className="flex items-center gap-2 text-sm text-gray-300 hover:text-primary transition-colors"
+                  >
+                    <ExternalLink size={16} /> Live Demo
+                  </motion.a>
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   )

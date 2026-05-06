@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
-
 export const metadata: Metadata = {
   title: 'Abdu Seid & Mahir Said | Innovative Web Developers',
   description: 'Award-winning web development duo specializing in cutting-edge web applications, AI integration, and exceptional user experiences.',

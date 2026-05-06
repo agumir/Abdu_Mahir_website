@@ -1,9 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
+import { motion, useInView } from 'framer-motion'
+import { useRef, useState } from 'react'
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react'
-import { useState } from 'react'
 
 const testimonials = [
   {
@@ -31,7 +30,8 @@ const testimonials = [
 
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   const next = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length)
@@ -47,7 +47,7 @@ export default function Testimonials() {
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
@@ -62,7 +62,6 @@ export default function Testimonials() {
             key={currentIndex}
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.5 }}
             className="glass-effect rounded-2xl p-8 md:p-12 text-center"
           >

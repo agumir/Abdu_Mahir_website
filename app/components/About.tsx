@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
+import { motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
 import { Code2, Cloud, Shield, Zap } from 'lucide-react'
 
 const features = [
@@ -12,7 +12,8 @@ const features = [
 ]
 
 export default function About() {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
     <section id="about" className="py-20 bg-gradient-to-b from-dark to-dark/95">
@@ -20,7 +21,7 @@ export default function About() {
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
@@ -33,7 +34,7 @@ export default function About() {
         <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
             <h3 className="text-3xl font-bold mb-6">
@@ -49,12 +50,12 @@ export default function About() {
               mastery of frontend development and user experience design. Together, we create complete,
               cutting-edge web applications that stand out in today's competitive landscape.
             </p>
-            <div className="flex gap-4">
-              {['50+ Projects', '98% Satisfaction', '24/7 Support'].map((stat, index) => (
+            <div className="flex gap-4 flex-wrap">
+              {['50+ Projects', '98% Satisfaction', '24/7 Support'].map((stat) => (
                 <motion.div
                   key={stat}
                   whileHover={{ scale: 1.05 }}
-                  className="glass-effect px-6 py-3 rounded-lg text-center"
+                  className="glass-effect px-6 py-3 rounded-lg text-center flex-1 min-w-[120px]"
                 >
                   <div className="text-2xl font-bold gradient-text">{stat.split(' ')[0]}</div>
                   <div className="text-sm text-gray-400">{stat.split(' ')[1]}</div>
@@ -65,11 +66,11 @@ export default function About() {
 
           <motion.div
             initial={{ opacity: 0, x: 50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.4, duration: 0.6 }}
             className="grid grid-cols-2 gap-6"
           >
-            {features.map((feature, index) => (
+            {features.map((feature) => (
               <motion.div
                 key={feature.title}
                 whileHover={{ scale: 1.05 }}
@@ -86,14 +87,14 @@ export default function About() {
         {/* Team Section */}
         <div className="grid md:grid-cols-2 gap-8">
           {[
-            { name: 'Abdu Seid', role: 'Backend & AI Specialist', image: 'https://media.istockphoto.com/id/2178848997/photo/indian-software-development-working-on-coding-computer-screen-and-flowchart-at-night-in.jpg?b=1&s=1024x1024&w=0&k=20&c=aBRl3OLQphrl-FC4zlbIbp4OfKOakC2S4KOkOaLfTok=', delay: 0 },
-            { name: 'Mahir Said', role: 'Frontend & UX Expert', image: 'https://img.magnific.com/free-photo/top-view-unrecognizable-hacker-performing-cyberattack-night_1098-18706.jpg?semt=ais_hybrid&w=740&q=80', delay: 0.2 },
+            { name: 'Abdu Seid', role: 'Backend & AI Specialist', image: 'https://img.magnific.com/free-photo/top-view-unrecognizable-hacker-performing-cyberattack-night_1098-18706.jpg?semt=ais_hybrid&w=740&q=80' },
+            { name: 'Mahir Said', role: 'Frontend & UX Expert', image: 'https://img.magnific.com/free-photo/top-view-unrecognizable-hacker-performing-cyberattack-night_1098-18706.jpg?semt=ais_hybrid&w=740&q=80' },
           ].map((member, index) => (
             <motion.div
               key={member.name}
               initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.6 + member.delay, duration: 0.6 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.6 + (index * 0.2), duration: 0.6 }}
               whileHover={{ scale: 1.02 }}
               className="glass-effect rounded-xl overflow-hidden group cursor-pointer"
             >
