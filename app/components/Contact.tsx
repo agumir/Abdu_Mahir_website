@@ -31,8 +31,8 @@ export default function Contact() {
 
   const contactInfo = [
     { icon: Mail, text: 'contact@abdu-mahir.com', href: 'mailto:contact@abdu-mahir.com' },
-    { icon: Phone, text: '+1 (555) 123-4567', href: 'tel:+15551234567' },
-    { icon: MapPin, text: 'San Francisco, CA', href: '#' },
+    { icon: Phone, text: '+12519 123-4567', href: 'tel:+125151234567' },
+    { icon: MapPin, text: 'Addis Ababa, Ethiopia', href: '#' },
     { icon: Clock, text: 'Mon-Fri: 9AM - 6PM', href: '#' },
   ]
 
@@ -151,6 +151,7 @@ export default function Contact() {
                     key={info.text}
                     href={info.href}
                     whileHover={{ x: 10 }}
+                   
                     className="flex items-center gap-4 p-3 rounded-lg hover:bg-white/5 transition-all group cursor-pointer"
                   >
                     <div className="p-2 bg-primary/20 rounded-lg group-hover:bg-primary/30 transition-all">

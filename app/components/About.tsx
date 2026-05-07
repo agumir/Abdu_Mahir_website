@@ -87,7 +87,7 @@ export default function About() {
         {/* Team Section */}
         <div className="grid md:grid-cols-2 gap-8">
           {[
-            { name: 'Abdu Seid', role: 'Backend & AI Specialist', image: 'https://img.magnific.com/free-photo/top-view-unrecognizable-hacker-performing-cyberattack-night_1098-18706.jpg?semt=ais_hybrid&w=740&q=80' },
+            { name: 'Abdu Seid', role: 'Backend & AI Specialist', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf5FALQYeC3RsSKpTgfoxCXxHMTzESNpYXjQ&s' },
             { name: 'Mahir Said', role: 'Frontend & UX Expert', image: 'https://img.magnific.com/free-photo/top-view-unrecognizable-hacker-performing-cyberattack-night_1098-18706.jpg?semt=ais_hybrid&w=740&q=80' },
           ].map((member, index) => (
             <motion.div
